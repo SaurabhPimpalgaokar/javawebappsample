@@ -9,7 +9,10 @@ def getFtpPublishProfile(def publishProfilesJson) {
 
 node {
   withEnv(['AZURE_SUBSCRIPTION_ID=b9df390b-425a-442c-be8d-ee0decef89bb',
-        'AZURE_TENANT_ID=0adb040b-ca22-4ca6-9447-ab7b049a22ff']) {
+        'AZURE_TENANT_ID=0adb040b-ca22-4ca6-9447-ab7b049a22ff',
+          'AZURE_CLIENT_ID=ec4df68e-b006-4bdd-b8d8-660dc562dd6c',
+           'AZURE_CLIENT_SECRET=LmZb77iM~THX3z.0GM_T_ifZGTWOsqrMYW'
+          ]) {
     stage('init') {
       checkout scm
     }
@@ -20,9 +23,9 @@ node {
   
     stage('deploy') {
       def resourceGroup = 'imsaurabh-rg'
-      def webAppName = 'newjenkinss-app-saur123'
+      def webAppName = 'mysampleapp123'
       // login Azure
-      withCredentials([usernamePassword(credentialsId: '7ae237cc-505e-4297-bd71-9bdc2d8209b9', passwordVariable: 'YNgukQStB2-ztS8qvATIp.~bPPHn1FIb~s', usernameVariable: '7ae237cc-505e-4297-bd71-9bdc2d8209b9')]) {
+      withCredentials([usernamePassword(credentialsId: 'AzureServicePrincipal', passwordVariable: 'LmZb77iM~THX3z.0GM_T_ifZGTWOsqrMYW', usernameVariable: 'ec4df68e-b006-4bdd-b8d8-660dc562dd6c')]) {
        sh '''
           az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID
           az account set -s $AZURE_SUBSCRIPTION_ID
